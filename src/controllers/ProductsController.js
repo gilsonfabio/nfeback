@@ -97,6 +97,48 @@ module.exports = {
         return response.json(produto);
     },
     
+    async searchProNome(request, response) {
+        const { nome } = request.params;
+
+        const produtos = await connection("produtos")
+            .where("proDescricao", "like", `%${nome}%`)
+            .where("proStatus", 1)
+            .orderBy("proDescricao");
+
+        return response.json(produtos);
+    },
+
+    async searchProReferencia(request, response) {
+        const { referencia } = request.params;
+
+        const produtos = await connection("produtos")
+            .where("proReferencia", "like", `%${referencia}%`)
+            .where("proStatus", 1)
+            .orderBy("proDescricao");
+
+        return response.json(produtos);
+    },
+
+    async searchProdutos(request, response) {
+        const { busca } = request.params;
+        const produtos = await connection("produtos")
+            .where(function () {
+
+                this.where("proDescricao", "like", `%${busca}%`)
+                    .orWhere("proReferencia", "like", `%${busca}%`)
+                    .orWhere("proCodBarra", "like", `%${busca}%`);
+
+                if (!isNaN(busca)) {
+                    this.orWhere("idProd", Number(busca));
+                }
+            })
+            .where("proStatus", 1)
+            .orderBy("proDescricao")
+            .limit(50);
+
+        return response.json(produtos);
+    },
+
     async lnhProdutos(request, response) {
         let id = request.params.idLnh;
 

@@ -39,7 +39,12 @@ routes.get('/searchDesNome/:razao', DestinatariosController.searchDesNome);
 routes.get('/produtos', ProductsController.index);
 routes.post('/newproduct', ProductsController.create);
 routes.get('/detproduct/:proId', ProductsController.detProduct);
+routes.get("/searchProdutos/:busca", ProductsController.searchProdutos);
+
 routes.get('/searchPro/:idPro', ProductsController.searchPro);
+routes.get('/searchProNome/:descricao', ProductsController.searchProNome);
+routes.get('/searchProReferencia/:referencia', ProductsController.searchProReferencia);
+
 routes.get('/linprodutos/:idLnh', ProductsController.lnhProdutos);
 
 routes.get('/pedidos', PedidosController.index);
